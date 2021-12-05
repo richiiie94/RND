@@ -9,6 +9,19 @@ const routes: Array<RouteConfig> = [
     path: '/',
     name: 'Home',
     component: Home,
+    children: [
+      {
+        path: 'admin/',
+        name: 'Admin',
+        children: [
+          {
+            path: 'setting',
+            name: 'Admin Setting',
+            component: () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
+          },
+        ],
+      },
+    ],
   },
   {
     path: '/about',
