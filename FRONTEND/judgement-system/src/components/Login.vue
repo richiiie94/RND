@@ -23,7 +23,7 @@
                   v-model="password"
                   prepared-inner-icon="mdi-lock"
                   :append-icon-cb="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-                  @click:append="() => showPassword = !showPassword"
+                  @click:append="showHidePassword"
                   :rules="[rules.required]"
                   outlined
                 ></v-text-field>
@@ -53,6 +53,12 @@ export default {
         },
       },
     };
+  },
+
+  methods: {
+    showHidePassword() {
+      this.showPasssword = !this.showPasssword;
+    },
   },
 };
 </script>
