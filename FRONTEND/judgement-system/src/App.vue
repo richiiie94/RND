@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <!-- <v-app>
     <v-app-bar
       app
       color="primary"
@@ -40,17 +40,20 @@
     <v-main>
       <router-view/>
     </v-main>
-  </v-app>
+  </v-app> -->
+  <div>
+    <Login />
+  </div>
 </template>
 
-<script lang="ts">
+<script>
 import Vue from 'vue';
+import Login from '@/components/Login.vue';
 
 export default Vue.extend({
   name: 'App',
-
-  data: () => ({
-    //
-  }),
+  components: {
+    Login,
+  },
 });
 </script>

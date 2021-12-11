@@ -17,7 +17,7 @@ const routes: Array<RouteConfig> = [
           {
             path: 'setting',
             name: 'Admin Setting',
-            component: () => import('@/views/ADMIN/setting.vue'),
+            component: () => import('@/views/ADMIN/Setting.vue'),
           },
         ],
       },
@@ -28,7 +28,7 @@ const routes: Array<RouteConfig> = [
           {
             path: 'point',
             name: 'Judges Point',
-            component: () => import('@/views/JUDGES/point.vue'),
+            component: () => import('@/views/JUDGES/Point.vue'),
           },
         ],
       },
@@ -39,12 +39,12 @@ const routes: Array<RouteConfig> = [
           {
             path: 'registration',
             name: 'User Registration',
-            component: () => import('@/views/USER/registration.vue'),
+            component: () => import('@/views/USER/Registration.vue'),
           },
           {
             path: 'dashboard',
             name: 'User Dashboard',
-            component: () => import('@/views/USER/dashboard.vue'),
+            component: () => import('@/views/USER/Dashboard.vue'),
           },
         ],
       },
@@ -52,11 +52,11 @@ const routes: Array<RouteConfig> = [
   },
   {
     path: '/',
-    name: 'Login',
+    name: 'App',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import('@/views/login.vue'),
+    component: () => import('@/App.vue'),
   },
   {
     path: '/schedule',
@@ -64,7 +64,7 @@ const routes: Array<RouteConfig> = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import('@/views/schedule.vue'),
+    component: () => import('@/views/Schedule.vue'),
   },
 ];
 
