@@ -16,9 +16,10 @@
               required
             ></v-text-field>
           </validation-provider>
+
           <validation-provider
             v-slot="{ errors }"
-            name="phoneNumber"
+            name="Phone Number"
             :rules="{
               required: true,
               digits: 7,
@@ -33,9 +34,10 @@
               required
             ></v-text-field>
           </validation-provider>
+
           <validation-provider
             v-slot="{ errors }"
-            name="email"
+            name="E-mail"
             rules="required|email"
           >
             <v-text-field
@@ -45,7 +47,12 @@
               required
             ></v-text-field>
           </validation-provider>
-          <validation-provider v-slot="{ errors }" name="select" rules="required">
+
+          <validation-provider
+            v-slot="{ errors }"
+            name="Selection"
+            rules="required"
+          >
             <v-select
               v-model="select"
               :items="items"
@@ -55,10 +62,11 @@
               required
             ></v-select>
           </validation-provider>
+
           <validation-provider
             v-slot="{ errors }"
             rules="required"
-            name="checkbox"
+            name="Checkbox"
           >
             <v-checkbox
               v-model="checkbox"
@@ -80,7 +88,6 @@
 
 <script>
 import { ValidationObserver, ValidationProvider } from "vee-validate";
-import About from '@/views/About.vue';
 
 export default {
   components: {
