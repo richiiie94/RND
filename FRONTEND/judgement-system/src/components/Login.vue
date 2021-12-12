@@ -42,9 +42,10 @@
 export default {
   data() {
     return {
+      reactive: true,
       email: '',
       password: '',
-      showPasssword: false,
+      // showPasssword: true,
       rules: {
         required: (value) => !!value || 'Required.',
         email: (value) => {
@@ -53,6 +54,10 @@ export default {
         },
       },
     };
+  },
+
+  props: {
+
   },
 
   methods: {
