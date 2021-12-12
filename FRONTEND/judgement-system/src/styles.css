@@ -1,0 +1,18 @@
+:root {
+    --primary: #41b863;
+    --secondary: #cef1d8;
+
+    --primary-hover: #14622a;
+}
+
+.btn-primary {
+    background-color: var(--primary) !important;
+    color: var(--secondary) !important;
+    width: 150px;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-hover) !important;
+    color: var(--secondary) !important;
+    transition: 0.25s ease-in-out all;
+}

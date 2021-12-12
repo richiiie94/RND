@@ -1,27 +1,41 @@
 <template>
   <v-app inspire>
-    <v-container fluid>
+    <v-container fill-height fluid>
       <v-row align="center" justify="center" dense>
-        <v-col cols="12" sm="8" md="4" lg="4">
+        <v-col cols="12" sm="7" md="3" lg="3">
           <v-card style.border-radius="25%" elevation="5">
             <v-card-text>
-              <validation-observer ref="observer" v-slot="{ invalid }">
-                <form @submit.prevent="submit">
+              <!-- <validation-observer ref="observer" v-slot="{ invalid }"> -->
+              <validation-observer ref="observer">
+                <form @submit.prevent="login">
                   <validation-provider
                     v-slot="{ errors }"
-                    name="Name"
-                    rules="required|max:10"
+                    name="E-mail"
+                    rules="required|email"
                   >
                     <v-text-field
-                      v-model="name"
-                      :counter="10"
+                      v-model="email"
                       :error-messages="errors"
-                      label="Name"
-                      required
+                      label="E-mail"
+                      @keydown.enter="login"
                     ></v-text-field>
                   </validation-provider>
 
                   <validation-provider
+                    v-slot="{ errors }"
+                    name="Password"
+                    rules="required"
+                  >
+                    <v-text-field
+                      v-model="name"
+                      :error-messages="errors"
+                      append-icon="mdi-eyes"
+                      label="Password"
+                      @keydown.enter="login"
+                    ></v-text-field>
+                  </validation-provider>
+
+                  <!-- <validation-provider
                     v-slot="{ errors }"
                     name="Phone Number"
                     :rules="{
@@ -37,22 +51,9 @@
                       label="Phone Number"
                       required
                     ></v-text-field>
-                  </validation-provider>
+                  </validation-provider> -->
 
-                  <validation-provider
-                    v-slot="{ errors }"
-                    name="E-mail"
-                    rules="required|email"
-                  >
-                    <v-text-field
-                      v-model="email"
-                      :error-messages="errors"
-                      label="E-mail"
-                      required
-                    ></v-text-field>
-                  </validation-provider>
-
-                  <validation-provider
+                  <!-- <validation-provider
                     v-slot="{ errors }"
                     name="Selection"
                     rules="required"
@@ -65,9 +66,9 @@
                       data-vv-name="select"
                       required
                     ></v-select>
-                  </validation-provider>
+                  </validation-provider> -->
 
-                  <validation-provider
+                  <!-- <validation-provider
                     v-slot="{ errors }"
                     rules="required"
                     name="Checkbox"
@@ -80,10 +81,31 @@
                       type="checkbox"
                       required
                     ></v-checkbox>
-                  </validation-provider>
+                  </validation-provider> -->
 
-                  <v-btn class="mr-4" type="submit" :disabled="invalid"> submit </v-btn>
-                  <v-btn @click="clear"> clear </v-btn>
+                  <v-col align="right" style="padding-right: 0px;">
+                    <v-btn class="btn-primary" type="login">
+                      login
+                    </v-btn>
+                  </v-col>
+
+                  <!-- <v-btn color="primary" class="mr-12" type="submit" :disabled="invalid">
+                    submit
+                  </v-btn> -->
+                  <!-- <v-btn @click="clear"> clear </v-btn> -->
+
+                  <v-list-item>
+                    <v-list-item-content
+                      ><v-list-item-title class="font-weight-bold">
+                        <v-icon>mdi-palette-outline</v-icon>
+                        Dark Mode</v-list-item-title
+                      >
+                    </v-list-item-content>
+
+                    <v-list-item-action
+                      ><v-switch color="error" v-model="$vuetify.theme.dark" />
+                    </v-list-item-action>
+                  </v-list-item>
                 </form>
               </validation-observer>
             </v-card-text>
@@ -115,6 +137,7 @@ export default {
     submit() {
       this.$refs.observer.validate();
     },
+
     clear() {
       this.name = "";
       this.phoneNumber = "";
@@ -123,10 +146,14 @@ export default {
       this.checkbox = null;
       this.$refs.observer.reset();
     },
+
+    login() {
+      this.$refs.observer.validate();
+    },
   },
 };
 </script>
 
 <style scoped>
-
+  
 </style>
