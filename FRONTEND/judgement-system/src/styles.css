@@ -1,8 +1,28 @@
+@font-face {
+    font-family: "Merienda-Reguler";
+    src: local("Merienda-Reguler"), url(./assets/fonts/Merienda-Regular.ttf) format("truetype");
+}
+
+* {
+    font-family: Merienda-Reguler;
+    text-transform: none !important;
+}
+
 :root {
     --primary: #41b863;
     --secondary: #cef1d8;
 
+    --black: black;
+    --white: white;
+
     --primary-hover: #14622a;
+    --secondary-hover: #daffe5;
+}
+
+.first-title {
+    font-size: 30px;
+    font-weight: bold;
+    justify-content: center;
 }
 
 .btn-primary {
@@ -12,6 +32,28 @@
 }
 
 .btn-primary:hover {
+    background-color: var(--primary-hover) !important;
+    color: var(--secondary) !important;
+    transition: 0.25s ease-in-out all;
+}
+
+.btn-secondary {
+    background-color: var(--secondary) !important;
+    color: var(--primary) !important;
+    width: 150px;
+}
+
+.btn-secondary:hover {
+    background-color: var(--secondary-hover) !important;
+    color: var(--primary) !important;
+    transition: 0.25s ease-in-out all;
+}
+
+.btn-text {
+    color: var(--primary) !important;
+}
+
+.btn-text:hover {
     background-color: var(--primary-hover) !important;
     color: var(--secondary) !important;
     transition: 0.25s ease-in-out all;
