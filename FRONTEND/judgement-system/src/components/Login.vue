@@ -166,6 +166,8 @@ export default {
 
     login() {
       this.$refs.observer.validate();
+      console.log("apiURL", this.$APIURL);
+      this.$Log;
     },
 
     forgotPassword() {
