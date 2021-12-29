@@ -151,7 +151,7 @@ export default {
   }),
 
   methods: {
-    submit() {
+    async submit() {
       this.$refs.observer.validate();
     },
 
@@ -164,10 +164,21 @@ export default {
       this.$refs.observer.reset();
     },
 
-    login() {
+    async login() {
       this.$refs.observer.validate();
       console.log("apiURL", this.$APIURL);
       this.$Log;
+      const Post_Data = {
+        username: 'richard',
+        email: 'richard@gmail.com',
+      };
+      try {
+        // const response = await post(`${this.$APIURL}login`, Post_Data);
+
+        // console.log(`SUBMIT RESPONSE: ${response}`);
+      } catch(err) {
+        console.log('SUBMIT ERROR');
+      }
     },
 
     forgotPassword() {
