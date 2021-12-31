@@ -30,11 +30,13 @@
                     rules="required"
                   >
                     <v-text-field
-                      v-model="name"
+                      v-model="password"
+                      :type="!show_password_checkbox ? 'password' : 'text'"
                       :error-messages="errors"
-                      append-icon="mdi-eyes"
+                      :append-icon="show_password_checkbox ? 'mdi-eye' : 'mdi-eye-off'"
                       label="Password"
                       @keydown.enter="login"
+                      @click:append="showPassword"
                     ></v-text-field>
                   </validation-provider>
 
@@ -142,12 +144,9 @@ export default {
     ValidationObserver,
   },
   data: () => ({
-    name: "",
-    phoneNumber: "",
-    email: "",
-    select: null,
-    items: ["Item 1", "Item 2", "Item 3", "Item 4"],
-    checkbox: null,
+    email: '',
+    password: '',
+    show_password_checkbox: false,
   }),
 
   methods: {
@@ -162,6 +161,10 @@ export default {
       this.select = null;
       this.checkbox = null;
       this.$refs.observer.reset();
+    },
+
+    showPassword() {
+      this.show_password_checkbox = !this.show_password_checkbox;
     },
 
     async login() {
