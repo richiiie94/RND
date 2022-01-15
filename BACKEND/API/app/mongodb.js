@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const mongodb = require('mongodb');
 
-const database = process.env.DB || 'trial';
+const database = process.env.DB || 'test';
 
 exports.loadPostCollection = async data => {
     console.log(data);

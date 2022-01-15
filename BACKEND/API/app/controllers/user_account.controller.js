@@ -3,7 +3,14 @@ const UserAccount = db.user_account;
 
 // Create and Save a new Tutorial
 exports.create = (req, res) => {
-  
+  try {
+    UserAccount.create(req.body);
+    
+  } catch(error) {
+    res.status(500).json({
+        message: err.message || "Some error occurred while retrieving tutorials."
+    });
+  }
 };
 
 // Retrieve all Tutorials from the database.

@@ -8,6 +8,7 @@
               <v-card-title class="first-title">
                 Login Page
               </v-card-title>
+              
               <!-- <validation-observer ref="observer" v-slot="{ invalid }"> -->
               <validation-observer ref="observer">
                 <form @submit.prevent="login">
