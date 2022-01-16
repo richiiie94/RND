@@ -32,9 +32,9 @@
                   >
                     <v-text-field
                       v-model="password"
-                      :type="!show_password_checkbox ? 'password' : 'text'"
+                      :type="!show_password ? 'password' : 'text'"
                       :error-messages="errors"
-                      :append-icon="show_password_checkbox ? 'mdi-eye' : 'mdi-eye-off'"
+                      :append-icon="show_password ? 'mdi-eye' : 'mdi-eye-off'"
                       label="Password"
                       @keydown.enter="login"
                       @click:append="showPassword"
@@ -147,7 +147,7 @@ export default {
   data: () => ({
     email: '',
     password: '',
-    show_password_checkbox: false,
+    show_password: false,
   }),
 
   methods: {
@@ -159,13 +159,15 @@ export default {
       this.name = "";
       this.phoneNumber = "";
       this.email = "";
+      this.password = "";
+      this.show_password = false;
       this.select = null;
       this.checkbox = null;
       this.$refs.observer.reset();
     },
 
     showPassword() {
-      this.show_password_checkbox = !this.show_password_checkbox;
+      this.show_password = !this.show_password;
     },
 
     async login() {
