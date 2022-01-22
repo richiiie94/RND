@@ -121,6 +121,10 @@ export default {
     signUp() {
       console.log("SignUp Clicked");
     },
+
+    getUserData() {
+      
+    }
   },
 };
 </script>

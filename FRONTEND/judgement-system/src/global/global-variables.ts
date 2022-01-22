@@ -1,6 +1,6 @@
 const globalVariables = {
     install: (Vue: any, options: any) => {
-        Vue.prototype.$APIURL = 'http://localhost:5000/api/'; // !LOCAL HOST 5000
+        Vue.prototype.$APIURL = process.env.API_URL || 'http://localhost:5000/API/'; // !LOCAL HOST 5000
     } 
 }
 
