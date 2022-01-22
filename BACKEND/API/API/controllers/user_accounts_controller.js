@@ -123,7 +123,12 @@ exports.getUserAccount = async (req, res) => {
 
 exports.updateUserAccount = async (req, res) => {
     try {
+        const condition = req.body['condition'];
 
+        const update = {
+            ...req.body['update'],
+            last_updated_time: moment(),
+        }
     } catch (err) {
         res.json({
             statusCode: index_api.statusCodeError,
