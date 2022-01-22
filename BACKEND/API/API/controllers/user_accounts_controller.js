@@ -1,9 +1,6 @@
 const user_accounts = require('../models/user_accounts_model');
+const index_api = require('../index_api');
 const moment = require('moment-timezone');
-
-const success_message = 'Successed!';
-const error_message = 'Error!';
-const exist_message = 'Already Existing!';
 
 exports.createUserAccount = async (req, res) => {
     try {
@@ -24,8 +21,8 @@ exports.createUserAccount = async (req, res) => {
 
         if (checkExisting.length > 0) {
             return res.json({
-                statusCode: 0,
-                message: 'Usermame/Email ' + exist_message,
+                statusCode: index_api.statusCodeError,
+                message: `Usermame/Email ${index_api.exist_message}`,
             });
         }
         
@@ -33,35 +30,65 @@ exports.createUserAccount = async (req, res) => {
 
         if (result) {
             res.json({
-                statusCode: 1,
-                message: 'Create User ' + success_message,
+                statusCode: index_api.statusCodeSuccess,
+                message: `Create User ${index_api.success_message}`,
             });
         }
     } catch(err) {
         res.json({
-            statusCode: 0,
+            statusCode: index_api.statusCodeError,
             message: error.message
         });
     }
 }
 
-exports.getAllUserAccountList = async (req, res) => {
+exports.getUserAccount = async (req, res) => {
     // req.body = {
     //     site: Date,
     //     company_id: Date,
     // }
     try {
         let condition = {};
+        let skip = 0;
+        let limit = 1000;
+        let sort = {
+            name: 1,
+        };
 
         if ('condition' in req.body) {
             condition = req.body['condition'];  
         }
 
+        if ('skip' in req.body) {
+            skip = req.body['skip'];
+        }
+
+        if ('limit' in req.body) {
+            limit = req.body['limit'];
+        }
+
+        if ('sort' in req.body) {
+            sort = req.body['sort'];
+        }
+
         const result = await Promise.all([
+            //! ALL DATA
             user_accounts.aggregate([
                 {
                     $match: condition,
-                }
+                },
+            ]).exec(),
+
+            user_accounts.aggregate([
+                {
+                    $match: condition,
+                },
+                {
+                    $skip: skip,
+                },
+                {
+                    $limit: limit,
+                },
             ]).exec(),
         ]);
 
@@ -73,14 +100,14 @@ exports.getAllUserAccountList = async (req, res) => {
             }
 
             res.json({
-                statusCode: 1,
+                statusCode: index_api.statusCodeSuccess,
                 total: total,
-                data: result[0],
+                data: result[1],
             });
         }
     } catch(err) {
         res.json({
-            statusCode: 0, 
+            statusCode: index_api.statusCodeError, 
             message: error.message
         });
     }

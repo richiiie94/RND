@@ -17,4 +17,6 @@ const Schema = mongoose.Schema({
     { collection: 'user_accounts' }
 );
 
+Schema.index({ name: 'text', email: 'text', username: 'text' })
+
 module.exports = db.model('user_accounts', Schema);
