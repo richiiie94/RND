@@ -28,6 +28,7 @@ exports.createUserAccount = async (req, res) => {
 
         const dataInject = {
             ...req.body,
+            status: 1,
             created_time: moment(),
             last_updated_time: moment(),
         };
@@ -37,6 +38,7 @@ exports.createUserAccount = async (req, res) => {
         if (result) {
             res.json({
                 statusCode: index_api.statusCodeSuccess,
+                data: result,
                 message: `Create User ${index_api.success_message}`,
             });
         }
@@ -128,6 +130,16 @@ exports.updateUserAccount = async (req, res) => {
         const update = {
             ...req.body['update'],
             last_updated_time: moment(),
+        }
+
+        const result = user_accounts.updateOne(condition, update, {new: true});
+
+        if (result) {
+            res.json({
+                statusCode: index_api.statusCodeSuccess,
+                data: result,
+                message: `Update User ${index_api.success_message}`,
+            });
         }
     } catch (err) {
         res.json({

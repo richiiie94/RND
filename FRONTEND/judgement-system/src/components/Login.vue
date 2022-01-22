@@ -15,21 +15,19 @@
                   <validation-provider
                     v-slot="{ errors }"
                     name="E-mail"
-                    rules="required|email"
-                  >
+                    rules="required|email">
                     <v-text-field
                       v-model="email"
                       :error-messages="errors"
                       label="E-mail"
-                      @keydown.enter="login"
-                    ></v-text-field>
+                      @keydown.enter="login">
+                    </v-text-field>
                   </validation-provider>
 
                   <validation-provider
                     v-slot="{ errors }"
                     name="Password"
-                    rules="required"
-                  >
+                    rules="required">
                     <v-text-field
                       v-model="password"
                       :type="!show_password ? 'password' : 'text'"
@@ -37,8 +35,8 @@
                       :append-icon="show_password ? 'mdi-eye' : 'mdi-eye-off'"
                       label="Password"
                       @keydown.enter="login"
-                      @click:append="showPassword"
-                    ></v-text-field>
+                      @click:append="showPassword">
+                    </v-text-field>
                   </validation-provider>
 
                   <!-- <validation-provider
@@ -193,6 +191,7 @@ export default {
 
     signUp() {
       console.log("SignUp Clicked");
+      this.$router.push('signup');
     },
   },
 };

@@ -13,66 +13,64 @@
                   <validation-provider
                     v-slot="{ errors }"
                     name="Name"
-                    :rules="{
-                      required: true,
-                    }"
-                  >
+                    :rules="{ required: true }">
                     <v-text-field
                       v-model="name"
-                      :counter="7"
                       :error-messages="errors"
                       label="Name"
-                      required
-                    ></v-text-field>
+                      required>
+                    </v-text-field>
+                  </validation-provider>
+
+                  <validation-provider
+                    v-slot="{ errors }"
+                    name="Username"
+                    :rules="{ required: true, min: 8 }">
+                    <v-text-field
+                      v-model="username"
+                      :error-messages="errors"
+                      label="Username"
+                      required>
+                    </v-text-field>
                   </validation-provider>
 
                   <validation-provider
                     v-slot="{ errors }"
                     name="E-mail"
-                    rules="required|email"
-                  >
+                    :rules="{ required: true, email: true }">
                     <v-text-field
                       v-model="email"
                       :error-messages="errors"
-                      label="E-mail"
-                      @keydown.enter="login"
-                    ></v-text-field>
+                      label="E-mail">
+                    </v-text-field>
                   </validation-provider>
 
                   <validation-provider
                     v-slot="{ errors }"
                     name="Password"
-                    rules="required"
-                  >
+                    :rules="{ required: true }">
                     <v-text-field
                       v-model="password"
                       :type="!show_password ? 'password' : 'text'"
                       :error-messages="errors"
-                      :append-icon="
-                        show_password ? 'mdi-eye' : 'mdi-eye-off'
-                      "
+                      :append-icon="show_password ? 'mdi-eye' : 'mdi-eye-off'"
                       label="Password"
-                      @keydown.enter="login"
-                      @click:append="showPassword"
-                    ></v-text-field>
+                      @click:append="showPassword">
+                    </v-text-field>
                   </validation-provider>
 
                   <validation-provider
                     v-slot="{ errors }"
                     name="Confirm Password"
-                    rules="required"
-                  >
+                    :rules="{ required: true }">
                     <v-text-field
                       v-model="confirm_password"
                       :type="!show_confirm_password ? 'password' : 'text'"
                       :error-messages="errors"
-                      :append-icon="
-                        show_confirm_password ? 'mdi-eye' : 'mdi-eye-off'
-                      "
+                      :append-icon="show_confirm_password ? 'mdi-eye' : 'mdi-eye-off'"
                       label="Confirm Password"
-                      @keydown.enter="login"
-                      @click:append="showConfirmPassword"
-                    ></v-text-field>
+                      @click:append="showConfirmPassword">
+                    </v-text-field>
                   </validation-provider>
 
                   <!-- <validation-provider
@@ -123,8 +121,19 @@
                     ></v-checkbox>
                   </validation-provider> -->
 
-                  <v-col align="right" style="padding-right: 0px">
-                    <v-btn class="btn-primary" type="signUp"> Sign Up </v-btn>
+                  <v-col cols="12">
+                    <v-row align-content="space-between">
+                      <v-col cols="6" style="padding-left: 0px">
+                        <v-btn class="btn-text pa-2" @click="back" style="font-size: 10px;" text>
+                          BACK
+                        </v-btn>
+                      </v-col>
+
+                      <v-col cols="6" align="right" style="padding-right: 0px">
+                        <v-btn class="btn-primary pa-2" type="signUp"> Sign Up </v-btn>
+                        <confirm-dialogue ref="confirmDialogue"></confirm-dialogue>
+                      </v-col>
+                    </v-row>
                   </v-col>
 
                   <!-- <v-btn color="primary" class="mr-12" type="submit" :disabled="invalid">
@@ -172,12 +181,15 @@
 
 <script>
 import { ValidationObserver, ValidationProvider } from "vee-validate";
+import ConfirmDialogue from '@/reusables/ConfirmDialogue.vue';
 
 export default {
   components: {
+    ConfirmDialogue,
     ValidationProvider,
     ValidationObserver,
   },
+
   data: () => ({
     name: "",
     username: "",
@@ -212,13 +224,34 @@ export default {
         this.show_confirm_password = !this.show_confirm_password;
     },
 
+    back() {
+      this.$router.push('/login');
+    },
+
     async signUp() {
-      this.$refs.observer.validate();
-      console.log("apiURL", this.$APIURL);
-      this.$Log;
       try {
-        // const response = await post(`${this.$APIURL}login`, Post_Data);
-        // console.log(`SUBMIT RESPONSE: ${response}`);
+        // console.log("apiURL", this.$APIURL);
+        const valid = await this.$refs.observer.validate();
+        // console.log(valid);
+
+        if (valid) {
+          const Post_Data = {
+            name: this.name,
+            username: this.username,
+            email: this.email,
+            password: this.password,
+          };
+
+          console.log('signUp Post_Data: ', Post_Data);
+
+          const ok = await this.$refs.confirmDialogue.show({ message: 'Are you sure?' });
+
+          if (ok) {
+            console.log('OK');
+            // const response = await post(`${this.$APIURL}login`, Post_Data);
+            // console.log(`SUBMIT RESPONSE: ${response}`);
+          }
+        }
       } catch (err) {
         console.log("SIGNUP ERROR");
       }
@@ -226,10 +259,6 @@ export default {
 
     forgotPassword() {
       console.log("Forgot Password Clicked");
-    },
-
-    signUp() {
-      console.log("SignUp Clicked");
     },
   },
 };

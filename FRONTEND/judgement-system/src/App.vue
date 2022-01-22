@@ -1,13 +1,10 @@
 <template>
-  <v-app>
-    <Login />
-  </v-app>
+  <router-view></router-view>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
-import Login from '@/components/Login.vue';
-import { required, digits, email, max, regex } from 'vee-validate/dist/rules'
+import { required, digits, email, max, min, regex } from 'vee-validate/dist/rules'
 import { extend, setInteractionMode } from 'vee-validate'
 
 setInteractionMode('eager')
@@ -20,6 +17,11 @@ extend('digits', {
 extend('required', {
   ...required,
   message: '{_field_} can not be empty',
+})
+
+extend('min', {
+  ...min,
+  message: '{_field_} may not be less than {length} characters',
 })
 
 extend('max', {
@@ -39,9 +41,7 @@ extend('email', {
 
 export default Vue.extend({
   name: 'App',
-  components: {
-    Login,
-  },
+  components: {},
 
   data: () => ({
     themes: [
