@@ -25,8 +25,14 @@ exports.createUserAccount = async (req, res) => {
                 message: `Usermame/Email ${index_api.exist_message}`,
             });
         }
+
+        const dataInject = {
+            ...req.body,
+            created_time: moment(),
+            last_updated_time: moment(),
+        };
         
-        const result = user_accounts.create(req.body);
+        const result = user_accounts.create(dataInject);
 
         if (result) {
             res.json({
@@ -71,6 +77,8 @@ exports.getUserAccount = async (req, res) => {
             sort = req.body['sort'];
         }
 
+        condition['status'] = 1;
+
         const result = await Promise.all([
             //! ALL DATA
             user_accounts.aggregate([
@@ -108,6 +116,17 @@ exports.getUserAccount = async (req, res) => {
     } catch(err) {
         res.json({
             statusCode: index_api.statusCodeError, 
+            message: error.message
+        });
+    }
+}
+
+exports.updateUserAccount = async (req, res) => {
+    try {
+
+    } catch (err) {
+        res.json({
+            statusCode: index_api.statusCodeError,
             message: error.message
         });
     }
