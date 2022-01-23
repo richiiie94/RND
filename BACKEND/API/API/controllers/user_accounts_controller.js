@@ -51,10 +51,6 @@ exports.createUserAccount = async (req, res) => {
 }
 
 exports.getUserAccount = async (req, res) => {
-    // req.body = {
-    //     site: Date,
-    //     company_id: Date,
-    // }
     try {
         let condition = {};
         let skip = 0;
@@ -92,6 +88,9 @@ exports.getUserAccount = async (req, res) => {
             user_accounts.aggregate([
                 {
                     $match: condition,
+                },
+                {
+                    $sort: sort,
                 },
                 {
                     $skip: skip,

@@ -182,6 +182,7 @@
 <script>
 import { ValidationObserver, ValidationProvider } from "vee-validate";
 import ConfirmDialogue from '@/reusables/ConfirmDialogue.vue';
+import UserAccountServices from '@/services/UserAccountServices';
 
 export default {
   components: {
@@ -242,18 +243,19 @@ export default {
             password: this.password,
           };
 
-          console.log('signUp Post_Data: ', Post_Data);
+          console.log('createUserAccount Post_Data: ', Post_Data);
 
           const ok = await this.$refs.confirmDialogue.show({ message: 'Are you sure?' });
 
           if (ok) {
             console.log('OK');
-            // const response = await post(`${this.$APIURL}login`, Post_Data);
-            // console.log(`SUBMIT RESPONSE: ${response}`);
+            const response = await UserAccountServices.createUserAccount(Post_Data).then((response) => {
+              console.log('createUserAccount response: ', response);
+            })
           }
         }
       } catch (err) {
-        console.log("SIGNUP ERROR");
+        console.log('message: ', err.message);
       }
     },
 

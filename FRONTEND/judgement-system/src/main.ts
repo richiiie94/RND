@@ -7,7 +7,9 @@ import 'roboto-fontface/css/roboto/roboto-fontface.css'
 import '@mdi/font/css/materialdesignicons.css'
 import Variables from './global/global-variables'
 import Functions from './global/global-functions'
+import VueResource from 'vue-resource'
 
+Vue.use(VueResource);
 Vue.use(Variables);
 Vue.use(Functions);
 
