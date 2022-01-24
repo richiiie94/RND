@@ -3,6 +3,7 @@ import Vue from 'vue'
 export default {
     async createUserAccount(data) {
         Vue.http.post(`${Vue.prototype.$APIURL}user-accounts/create-user-account`, data, [{responseType: 'json'}]).then((response) => {
+            console.log('response: ', response);
             return response;
         });
     },

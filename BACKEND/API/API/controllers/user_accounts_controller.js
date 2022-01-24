@@ -1,9 +1,10 @@
 const user_accounts = require('../models/user_accounts_model');
-const index_api = require('../index_api');
+const { globalVariables } = require('../global_variables');
 const moment = require('moment-timezone');
 
 exports.createUserAccount = async (req, res) => {
     try {
+        console.log(globalVariables);
         const checkExisting = await user_accounts.aggregate([
             {
                 $match: {
@@ -21,8 +22,8 @@ exports.createUserAccount = async (req, res) => {
 
         if (checkExisting.length > 0) {
             return res.json({
-                statusCode: index_api.statusCodeError,
-                message: `Usermame/Email ${index_api.exist_message}`,
+                statusCode: globalVariables['statusCodeError'],
+                message: `Username/Email ${globalVariables['exist_message']}`,
             });
         }
 
@@ -37,15 +38,15 @@ exports.createUserAccount = async (req, res) => {
 
         if (result) {
             res.json({
-                statusCode: index_api.statusCodeSuccess,
+                statusCode: globalVariables['statusCodeSuccess'],
                 data: result,
-                message: `Create User ${index_api.success_message}`,
+                message: `Create User ${globalVariables['success_message']}`,
             });
         }
     } catch(err) {
         res.json({
-            statusCode: index_api.statusCodeError,
-            message: error.message
+            statusCode: globalVariables['statusCodeError'],
+            message: err.message
         });
     }
 }
@@ -109,15 +110,15 @@ exports.getUserAccount = async (req, res) => {
             }
 
             res.json({
-                statusCode: index_api.statusCodeSuccess,
+                statusCode: globalVariables['statusCodeSuccess'],
                 total: total,
                 data: result[1],
             });
         }
     } catch(err) {
         res.json({
-            statusCode: index_api.statusCodeError, 
-            message: error.message
+            statusCode: globalVariables['statusCodeError'], 
+            message: err.message
         });
     }
 }
@@ -135,15 +136,15 @@ exports.updateUserAccount = async (req, res) => {
 
         if (result) {
             res.json({
-                statusCode: index_api.statusCodeSuccess,
+                statusCode: globalVariables['statusCodeSuccess'],
                 data: result,
-                message: `Update User ${index_api.success_message}`,
+                message: `Update User ${globalVariables['success_message']}`,
             });
         }
     } catch (err) {
         res.json({
-            statusCode: index_api.statusCodeError,
-            message: error.message
+            statusCode: globalVariables['statusCodeError'],
+            message: err.message
         });
     }
 }
