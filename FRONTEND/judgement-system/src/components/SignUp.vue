@@ -184,6 +184,8 @@ import { ValidationObserver, ValidationProvider } from "vee-validate";
 import ConfirmDialogue from '@/reusables/ConfirmDialogue.vue';
 import UserAccountServices from '@/services/UserAccountServices';
 
+const userAccountServices = new UserAccountServices();
+
 export default {
   components: {
     ConfirmDialogue,
@@ -249,9 +251,11 @@ export default {
 
           if (ok) {
             console.log('OK');
-            const response = await UserAccountServices.createUserAccount(Post_Data).then((response) => {
+            userAccountServices.createUserAccount(Post_Data).then((response) => {
               console.log('createUserAccount response: ', response);
-            })
+            }).catch((err) => {
+              console.log(err.message);
+            }) ;
           }
         }
       } catch (err) {
