@@ -250,11 +250,18 @@ export default {
           const ok = await this.$refs.confirmDialogue.show({ message: 'Are you sure?' });
 
           if (ok) {
-            console.log('OK');
             userAccountServices.createUserAccount(Post_Data).then((response) => {
-              console.log('createUserAccount response: ', response);
+              if ('data' in response) {
+                alert(response['data']['message']);
+
+                if (response['data']['statusCode'] === 0) {
+                  return;
+                }
+
+                this.clear();
+              }
             }).catch((err) => {
-              console.log(err.message);
+              alert(err.message);
             }) ;
           }
         }

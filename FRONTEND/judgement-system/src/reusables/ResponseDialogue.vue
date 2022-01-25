@@ -13,7 +13,7 @@
 import PopupModal from './PopUpModal'
 
 export default {
-    name: 'ConfirmDialogue',
+    name: 'ResponseDialogue',
 
     components: { PopupModal },
 
