@@ -1,10 +1,15 @@
 <template>
     <popup-modal ref="popup">
-        <h2 style="margin-top: 0">{{ title }}</h2>
-        <p style="text-align: center">{{ message }}</p>
+        <v-alert
+            elevation="2"
+            :colored-border="colored_border"
+            :border="border"
+            :type="type">
+            {{ message }}
+        </v-alert>
+
         <div class="btns">
-            <v-btn class="btn-text pa-2" @click="cancel">{{ cancelButton }}</v-btn>
-            <v-btn class="btn-primary pa-2" @click="confirm" style="width: auto">{{ okButton }}</v-btn>
+            <v-btn class="btn-primary pa-2" @click="close" style="width: auto">{{ closeButton }}</v-btn>
         </div>
     </popup-modal>
 </template>
@@ -19,11 +24,12 @@ export default {
 
     data: () => ({
         // Parameters that change depending on the type of dialogue
-        title: '',
         message: '', // Main text content
-        okButton: 'Yes', // Text for confirm button; leave it empty because we don't know what we're using it for
-        cancelButton: 'No', // text for cancel button
-        
+        closeButton: 'OK', // text for cancel button
+
+        colored_border: false,
+        border: undefined,
+        type: '',
         // Private variables
         resolvePromise: undefined,
         rejectPromise: undefined,
@@ -31,20 +37,20 @@ export default {
 
     methods: {
         show(opts = {}) {
-            if ('title' in opts) {
-                this.title = opts.title;
-            }
-
             if ('message' in opts) {
-                this.message = opts.message;
+                this.message = opts['message']
             }
 
-            if ('okButton' in opts) {
-                this.okButton = opts.okButton;
+            if ('closeButton' in opts) {
+                this.closeButton = opts['closeButton']
             }
 
-            if ('cancelButton' in opts) {
-                this.cancelButton = opts.cancelButton
+            if ('colored_border' in opts) {
+                this.colored_border = opts['colored_border']
+            }
+
+            if ('type' in opts) {
+                this.type = opts['type']
             }
             // Once we set our config, we tell the popup modal to open
             this.$refs.popup.open()
@@ -55,12 +61,7 @@ export default {
             })
         },
 
-        confirm() {
-            this.$refs.popup.close()
-            this.resolvePromise(true)
-        },
-
-        cancel() {
+        close() {
             this.$refs.popup.close()
             this.resolvePromise(false)
             // Or you can throw an error
@@ -74,7 +75,7 @@ export default {
 .btns {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: flex-end;
     gap: 8px;
 }
 </style>

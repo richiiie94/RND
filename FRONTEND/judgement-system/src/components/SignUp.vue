@@ -132,6 +132,7 @@
                       <v-col cols="6" align="right" style="padding-right: 0px">
                         <v-btn class="btn-primary pa-2" type="signUp"> Sign Up </v-btn>
                         <confirm-dialogue ref="confirmDialogue"></confirm-dialogue>
+                        <response-dialogue ref="responseDialogue"></response-dialogue>
                       </v-col>
                     </v-row>
                   </v-col>
@@ -182,6 +183,7 @@
 <script>
 import { ValidationObserver, ValidationProvider } from "vee-validate";
 import ConfirmDialogue from '@/reusables/ConfirmDialogue.vue';
+import ResponseDialogue from '@/reusables/ResponseDialogue.vue';
 import UserAccountServices from '@/services/UserAccountServices';
 
 const userAccountServices = new UserAccountServices();
@@ -189,6 +191,7 @@ const userAccountServices = new UserAccountServices();
 export default {
   components: {
     ConfirmDialogue,
+    ResponseDialogue,
     ValidationProvider,
     ValidationObserver,
   },
@@ -224,7 +227,7 @@ export default {
     },
 
     showConfirmPassword() {
-        this.show_confirm_password = !this.show_confirm_password;
+      this.show_confirm_password = !this.show_confirm_password;
     },
 
     back() {
@@ -234,7 +237,7 @@ export default {
     async signUp() {
       try {
         // console.log("apiURL", this.$APIURL);
-        const valid = await this.$refs.observer.validate();
+        const valid = await this.$refs.observer.validate()
         // console.log(valid);
 
         if (valid) {
@@ -245,28 +248,28 @@ export default {
             password: this.password,
           };
 
-          console.log('createUserAccount Post_Data: ', Post_Data);
+          console.log('createUserAccount Post_Data: ', Post_Data)
 
-          const ok = await this.$refs.confirmDialogue.show({ message: 'Are you sure?' });
+          const ok = await this.$refs.confirmDialogue.show({ message: 'Are you sure?' })
 
           if (ok) {
             userAccountServices.createUserAccount(Post_Data).then((response) => {
               if ('data' in response) {
-                alert(response['data']['message']);
-
                 if (response['data']['statusCode'] === 0) {
-                  return;
+                  return this.$refs.responseDialogue.show({ message: response['data']['message'], type: 'error' })
                 }
 
-                this.clear();
+                this.$refs.responseDialogue.show({ message: response['data']['message'], type: 'success' })
+                
+                this.clear()
               }
             }).catch((err) => {
-              alert(err.message);
-            }) ;
+              alert(err.message)
+            })
           }
         }
       } catch (err) {
-        console.log('message: ', err.message);
+        console.log('message: ', err.message)
       }
     },
 
