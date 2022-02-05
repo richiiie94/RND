@@ -48,13 +48,14 @@
                   <validation-provider
                     v-slot="{ errors }"
                     name="Password"
-                    :rules="{ required: true }">
+                    :rules="{ required: true, min: 8 }">
                     <v-text-field
                       v-model="password"
                       :type="!show_password ? 'password' : 'text'"
                       :error-messages="errors"
                       :append-icon="show_password ? 'mdi-eye' : 'mdi-eye-off'"
                       label="Password"
+                      ref="password"
                       @click:append="showPassword">
                     </v-text-field>
                   </validation-provider>
@@ -62,13 +63,14 @@
                   <validation-provider
                     v-slot="{ errors }"
                     name="Confirm Password"
-                    :rules="{ required: true }">
+                    :rules="{ required: true, confirmed: password }">
                     <v-text-field
                       v-model="confirm_password"
                       :type="!show_confirm_password ? 'password' : 'text'"
                       :error-messages="errors"
                       :append-icon="show_confirm_password ? 'mdi-eye' : 'mdi-eye-off'"
                       label="Confirm Password"
+                      data-vv-as="password"
                       @click:append="showConfirmPassword">
                     </v-text-field>
                   </validation-provider>

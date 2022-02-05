@@ -4,7 +4,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { required, digits, email, max, min, regex } from 'vee-validate/dist/rules'
+import { required, digits, email, max, min, regex, confirmed } from 'vee-validate/dist/rules'
 import { extend, setInteractionMode } from 'vee-validate'
 
 setInteractionMode('eager')
@@ -37,6 +37,14 @@ extend('regex', {
 extend('email', {
   ...email,
   message: '{_field_} must be valid',
+})
+
+extend('confirmed', {
+  params: ['target'],
+  validate(value, { target }: any) {
+    return value === target
+  },
+  message: '{_field_} not match',
 })
 
 export default Vue.extend({
