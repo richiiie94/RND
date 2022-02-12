@@ -133,6 +133,7 @@
 
                       <v-col cols="6" align="right" style="padding-right: 0px">
                         <v-btn class="btn-primary pa-2" type="signUp"> Sign Up </v-btn>
+                        <snack-bar ref="snackBar"></snack-bar>
                         <confirm-dialogue ref="confirmDialogue"></confirm-dialogue>
                         <response-dialogue ref="responseDialogue"></response-dialogue>
                       </v-col>
@@ -186,6 +187,7 @@
 import { ValidationObserver, ValidationProvider } from "vee-validate";
 import ConfirmDialogue from '@/reusables/ConfirmDialogue.vue';
 import ResponseDialogue from '@/reusables/ResponseDialogue.vue';
+import SnackBar from '@/reusables/SnackBar.vue';
 import UserAccountServices from '@/services/UserAccountServices';
 
 const userAccountServices = new UserAccountServices();
@@ -194,6 +196,7 @@ export default {
   components: {
     ConfirmDialogue,
     ResponseDialogue,
+    SnackBar,
     ValidationProvider,
     ValidationObserver,
   },
@@ -258,7 +261,7 @@ export default {
             userAccountServices.createUserAccount(Post_Data).then((response) => {
               if ('data' in response) {
                 if (response['data']['statusCode'] === 0) {
-                  return this.$refs.responseDialogue.show({ message: response['data']['message'], type: 'error' })
+                  return this.$refs.snackBar.show({ message: response['data']['message'], styles: { color: 'error'}, showBtn: true })
                 }
 
                 this.$refs.responseDialogue.show({ message: response['data']['message'], type: 'success' })
@@ -266,7 +269,7 @@ export default {
                 this.clear()
               }
             }).catch((err) => {
-              alert(err.message)
+              this.$refs.responseDialogue.show({ message: err['message'], type: 'error' })
             })
           }
         }
