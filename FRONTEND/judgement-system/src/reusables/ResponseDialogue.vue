@@ -9,7 +9,9 @@
         </v-alert>
 
         <div class="btns">
-            <v-btn class="btn-primary pa-2" @click="close" style="width: auto">{{ closeButton }}</v-btn>
+            <v-btn :id="id + '-closebutton-responsedialoguereusable'" class="btn-primary pa-2" @click="close" style="width: auto">
+                {{ closeButton }}
+            </v-btn>
         </div>
     </popup-modal>
 </template>
@@ -24,6 +26,7 @@ export default {
 
     data: () => ({
         // Parameters that change depending on the type of dialogue
+        id: '',
         message: '', // Main text content
         closeButton: 'OK', // text for cancel button
 
@@ -37,6 +40,10 @@ export default {
 
     methods: {
         show(opts = {}) {
+            if ('id' in opts) {
+                this.id = opts['id']
+            }
+
             if ('message' in opts) {
                 this.message = opts['message']
             }

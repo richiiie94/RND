@@ -3,8 +3,8 @@
         <h2 style="margin-top: 0">{{ title }}</h2>
         <p style="text-align: center">{{ message }}</p>
         <div class="btns">
-            <v-btn class="btn-text pa-2" @click="cancel">{{ cancelButton }}</v-btn>
-            <v-btn class="btn-primary pa-2" @click="confirm" style="width: auto">{{ okButton }}</v-btn>
+            <v-btn :id="id + '-cancelbutton-confirmdialoguereusable'" class="btn-text pa-2" @click="cancel">{{ cancelButton }}</v-btn>
+            <v-btn :id="id + '-okbutton-confirmdialoguereusable'" class="btn-primary pa-2" @click="confirm" style="width: auto">{{ okButton }}</v-btn>
         </div>
     </popup-modal>
 </template>
@@ -19,6 +19,7 @@ export default {
 
     data: () => ({
         // Parameters that change depending on the type of dialogue
+        id: '',
         title: '',
         message: '', // Main text content
         okButton: 'Yes', // Text for confirm button; leave it empty because we don't know what we're using it for
@@ -31,6 +32,10 @@ export default {
 
     methods: {
         show(opts = {}) {
+            if ('id' in opts) {
+                this.id = opts['id']
+            }
+
             if ('title' in opts) {
                 this.title = opts.title;
             }

@@ -1,5 +1,6 @@
 <template>
     <v-snackbar
+        :id="elementId + '-snackbar-reusablesnackbar'"
         v-model="snackbar"
         :timeout="timeout"
         :top="top"
@@ -18,7 +19,7 @@
         :vertical="vertical">
         {{ message }}
         <template v-if="showBtn" v-slot:action="{ attrs }">
-            <v-btn :color="btnColor" text v-bind="attrs" @click="snackbar = false">
+            <v-btn :id="elementId + '-button-reusablesnackbar'" :color="btnColor" v-bind="attrs" @click="snackbar = false" class="btn-secondary" style="width: auto;" depressed>
                 {{ btnText }}
             </v-btn>
         </template>
@@ -28,111 +29,63 @@
 <script>
 export default {
     name: 'SnackBar',
+    props: {
+        elementId: { type: String, default: '' },
+        top: { type: Boolean, default: false },
+        bottom: { type: Boolean, default: false },
+        left: { type: Boolean, default: false },
+        right: { type: Boolean, default: false },
+        message: { type: String, default: '' },
+        timeout: { type: Number, default: -1 },
+        color: { default: undefined },
+        outlined: { type: Boolean, default: false },
+        elevation: { default: undefined },
+        height: { default: undefined },
+        width: { default: undefined },
+        minHeight: { default: undefined },
+        minWidth: { default: undefined },
+        maxHeight: { default: undefined },
+        maxWidth: { default: undefined },
+        vertical: { type: Boolean, default: false },
+        showBtn: { type: Boolean, default: false },
+        btnText: { type: String, default: 'Close' },
+        btnColor: { default: undefined },
+    },
 
     data: () => ({
         snackbar: false,
-        message: '',
-        timeout: -1,
-        top: false,
-        bottom: false,
-        left: false,
-        right: false,
-        color: undefined,
-        outlined: false,
-        elevation: undefined,
-        height: undefined,
-        width: undefined,
-        minHeight: undefined,
-        minWidth: undefined,
-        maxHeight: undefined,
-        maxWidth: undefined,
-        vertical: false,
-        showBtn: false,
-        btnText: 'CLOSE',
-        btnColor: undefined,
     }),
 
     methods: {
         show(opts = {}) {
-            if ('styles' in opts) {
-                if ('color' in opts['styles']) {
-                    this.color = opts['styles']['color']
-                }
-
-                if ('top' in opts['styles']) {
-                    this.top = opts['styles']['top']
-                }
-
-                if ('bottom' in opts['styles']) {
-                    this.bottom = opts['styles']['bottom']
-                }
-
-                if ('left' in opts['styles']) {
-                    this.left = opts['styles']['left']
-                }
-
-                if ('right' in opts['styles']) {
-                    this.right = opts['styles']['right']
-                }
-
-                if ('outlined' in opts['styles']) {
-                    this.outlined = opts['styles']['outlined']
-                }
-
-                if ('elevation' in opts['styles']) {
-                    this.elevation = opts['styles']['elevation']
-                }
-
-                if ('height' in opts['styles']) {
-                    this.height = opts['styles']['height']
-                }
-
-                if ('width' in opts['styles']) {
-                    this.width = opts['styles']['width']
-                }
-
-                if ('minHeight' in opts['styles']) {
-                    this.minHeight = opts['styles']['minHeight']
-                }
-
-                if ('minWidth' in opts['styles']) {
-                    this.minWidth = opts['styles']['minWidth']
-                }
-
-                if ('maxHeight' in opts['styles']) {
-                    this.maxHeight = opts['styles']['maxHeight']
-                }
-
-                if ('maxWidth' in opts['styles']) {
-                    this.maxWidth = opts['styles']['maxWidth']
-                }
-
-                if ('vertical' in opts['styles']) {
-                    this.vertical = opts['styles']['vertical']
-                }
-            }
-
-            if ('timeout' in opts) {
-                this.timeout = opts['timeout']
-            }
-
-            if ('message' in opts) {
-                this.message = opts['message']
-            }
-
-            if ('showBtn' in opts) {
-                this.showBtn = opts['showBtn']
-            }
-
-            if ('btnText' in opts) {
-                this.btnText = opts['btnText']
-            }
-
-            if ('btnColor' in opts) {
-                this.btnColor = opts['btnColor']
-            }
-
             this.snackbar = true
+        },
+
+        close() {
+            this.snackbar = false
+            this.resetData()
+        },
+
+        resetData() {
+            this.top = false
+            this.bottom = false
+            this.left = false
+            this.right = false
+            this.message = ''
+            this.timeout = -1
+            this.color = undefined
+            this.outlined = false
+            this.elevation = undefined
+            this.height = undefined
+            this.width = undefined
+            this.minHeight = undefined
+            this.minWidth = undefined
+            this.maxHeight = undefined
+            this.maxWidth = undefined
+            this.vertical = false
+            this.showBtn = false
+            this.btnText = 'Close'
+            this.btnColor = undefined
         },
     },
 };

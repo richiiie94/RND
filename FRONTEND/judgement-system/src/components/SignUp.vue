@@ -133,7 +133,7 @@
 
                       <v-col cols="6" align="right" style="padding-right: 0px">
                         <v-btn class="btn-primary pa-2" type="signUp"> Sign Up </v-btn>
-                        <snack-bar ref="snackBar"></snack-bar>
+                        <snack-bar :elementId="'signUpPage'" :message="snackBar_message" :color="snackBar_color" :showBtn="snackBar_showBtn" :timeout="snackBar_timeout" ref="snackBar"></snack-bar>
                         <confirm-dialogue ref="confirmDialogue"></confirm-dialogue>
                         <response-dialogue ref="responseDialogue"></response-dialogue>
                       </v-col>
@@ -202,41 +202,46 @@ export default {
   },
 
   data: () => ({
-    name: "",
-    username: "",
-    email: "",
-    password: "",
-    confirm_password: "",
+    name: '',
+    username: '',
+    email: '',
+    password: '',
+    confirm_password: '',
     show_password: false,
     show_confirm_password: false,
+
+    snackBar_message: '',
+    snackBar_color: undefined,
+    snackBar_showBtn: false,
+    snackBar_timeout: -1,
   }),
 
   methods: {
     async submit() {
-      this.$refs.observer.validate();
+      this.$refs.observer.validate()
     },
 
     clear() {
-      this.name = "";
-      this.username = "";
-      this.email = "";
-      this.password = "";
-      this.confirm_password = "";
-      this.show_password = false;
-      this.show_confirm_password = false;
-      this.$refs.observer.reset();
+      this.name = ''
+      this.username = ''
+      this.email = ''
+      this.password = ''
+      this.confirm_password = ''
+      this.show_password = false
+      this.show_confirm_password = false
+      this.$refs.observer.reset()
     },
 
     showPassword() {
-      this.show_password = !this.show_password;
+      this.show_password = !this.show_password
     },
 
     showConfirmPassword() {
-      this.show_confirm_password = !this.show_confirm_password;
+      this.show_confirm_password = !this.show_confirm_password
     },
 
     back() {
-      this.$router.push('/login');
+      this.$router.push('/login')
     },
 
     async signUp() {
@@ -261,15 +266,28 @@ export default {
             userAccountServices.createUserAccount(Post_Data).then((response) => {
               if ('data' in response) {
                 if (response['data']['statusCode'] === 0) {
-                  return this.$refs.snackBar.show({ message: response['data']['message'], styles: { color: 'error'}, showBtn: true })
+                  this.snackBar_message = response['data']['message']
+                  this.snackBar_color = 'error'
+                  this.snackBar_showBtn = true
+                  return this.$refs.snackBar.show({})
                 }
 
-                this.$refs.responseDialogue.show({ message: response['data']['message'], type: 'success' })
-                
+                this.snackBar_message = response['data']['message']
+                this.snackBar_color = 'success'
+                this.snackBar_timeout = 3000
+                this.snackBar_showBtn = false
+                this.$refs.snackBar.show({})
                 this.clear()
+                
+                setTimeout(() => {
+                  this.$refs.snackBar.close()
+                }, this.snackBar_timeout)
               }
             }).catch((err) => {
-              this.$refs.responseDialogue.show({ message: err['message'], type: 'error' })
+              this.snackBar_message = err['message']
+              this.snackBar_color = 'error'
+              this.snackBar_showBtn = true
+              return this.$refs.snackBar.show({})
             })
           }
         }
